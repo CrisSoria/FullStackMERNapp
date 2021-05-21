@@ -22,7 +22,8 @@ app.get("/", (req, res) => {
 
 //voy aconectar a una base de datos de atlas para hostearla en la nube https:/www.mongodb.com/cloud/atlas
 
-const CONNECTION_URL = process.env.CONNECTION_URL;
+const CONNECTION_URL =
+  "mongodb+srv://Cristian:Cristian123@cluster0.esplp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 const PORT = process.env.PORT || 5000; //para heroku
 
