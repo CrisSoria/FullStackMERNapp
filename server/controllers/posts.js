@@ -7,10 +7,38 @@ import PostMessage from "../models/postMessage.js";
 const router = express.Router();
 
 export const getPosts = async (req, res) => {
-  try {
-    const postMessages = await PostMessage.find();
+  const { page } = req.query; //recordar que es un string (debo convertirlo a número)
 
-    res.status(200).json(postMessages);
+  try {
+    const LIMIT = 8;
+    const startIndex = (Number(page) - 1) * LIMIT; //índice inicial de cada página
+    const total = await PostMessage.countDocuments({});
+    const posts = await PostMessage.find()
+      .sort({ _id: -1 }) //para mostrar los más nuevos primero
+      .limit(LIMIT)
+      .skip(startIndex);
+
+    res.json({
+      data: posts,
+      currentPage: Number(page),
+      numberOfPages: Math.ceil(total / LIMIT), //número total de páginas
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getPostsBySearch = async (req, res) => {
+  const { searchQuery, tags } = req.query;
+
+  try {
+    const title = new RegExp(searchQuery, "i"); //para facilitar a MongoDB la busqueda e ignorar distinción entre mayus y minus
+
+    const posts = await PostMessage.find({
+      $or: [{ title }, { tags: { $in: tags.split(",") } }],
+    });
+
+    res.json({ data: posts });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -75,7 +103,6 @@ export const likePost = async (req, res) => {
   const { id } = req.params;
 
   if (!req.userId) {
-    //viene del middleware
     return res.json({ message: "Unauthenticated" });
   }
 
@@ -87,10 +114,8 @@ export const likePost = async (req, res) => {
   const index = post.likes.findIndex((id) => id === String(req.userId));
 
   if (index === -1) {
-    //autorizo el like
     post.likes.push(req.userId);
   } else {
-    //le quito el like
     post.likes = post.likes.filter((id) => id !== String(req.userId));
   }
   const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
