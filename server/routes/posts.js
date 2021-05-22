@@ -10,13 +10,13 @@ import {
 } from "../controllers/posts.js"; //! debo poner la extensión del archivo (.js) si o si en Node
 
 const router = express.Router();
+import auth from "../middleware/auth.js";
 
 //localhost:500/posts
 router.get("/", getPosts);
-router.post("/", createPost);
-router.get("/:id", getPost);
-router.patch("/:id", updatePost);
-router.delete("/:id", deletePost);
-router.patch("/:id/likePost", likePost);
+router.post("/", auth, createPost);
+router.patch("/:id", auth, updatePost);
+router.delete("/:id", auth, deletePost);
+router.patch("/:id/likePost", auth, likePost);
 
 export default router;
