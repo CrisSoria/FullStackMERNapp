@@ -10,7 +10,7 @@ export const getPosts = async (req, res) => {
   const { page } = req.query; //recordar que es un string (debo convertirlo a número)
 
   try {
-    const LIMIT = 8;
+    const LIMIT = 6;
     const startIndex = (Number(page) - 1) * LIMIT; //índice inicial de cada página
     const total = await PostMessage.countDocuments({});
     const posts = await PostMessage.find()

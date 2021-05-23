@@ -2,10 +2,10 @@
 import axios from "axios";
 
 // creo una instancia de axios
-const API = axios.create({ baseURL: "http://localhost:5000" });
-// const API = axios.create({
-//   baseURL: "https://memories-api-mern.herokuapp.com",
-// });
+// const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({
+  baseURL: "https://memories-api-mern.herokuapp.com",
+});
 
 //función que se ejecutará  antes de cada request para poder enviar el token al back
 API.interceptors.request.use((req) => {
