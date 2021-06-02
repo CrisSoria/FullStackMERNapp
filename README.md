@@ -5,7 +5,7 @@
 
 <img src="https://i.ibb.co/6NcCP1g/memories-Like-Edit-Delete.png" align="right" alt="img" width="50%" height="auto" border="0">
 
-Red social que permite a los usuarios compartir posteos de actividades/recuerdos.
+Red social que permite a los usuarios compartir posteos de actividades/recuerdos. <br/>
 Base de datos no relacional en MongoDB, posibilidad de login con google, detalles de post con posts recomendados, busqueda por tag o título, contador de likes, ...
 
 ### TECNOLOGIAS: 
