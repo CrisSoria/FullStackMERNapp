@@ -2,10 +2,10 @@
 import axios from "axios";
 
 // creo una instancia de axios
-// const API = axios.create({ baseURL: "http://localhost:5000" });
-const API = axios.create({
-  baseURL: "https://memories-api-mern.herokuapp.com",
-});
+const API = axios.create({ baseURL: "http://localhost:5000" });
+// const API = axios.create({
+// baseURL: "https://memories-api-mern.herokuapp.com",
+// });
 
 //función que se ejecutará  antes de cada request para poder enviar el token al back
 API.interceptors.request.use((req) => {
@@ -28,6 +28,8 @@ export const fetchPostsBySearch = (searchQuery) =>
   );
 export const createPost = (newPost) => API.post("/posts", newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
+export const comment = (value, id) =>
+  API.post(`/posts/${id}/commentPost`, { value });
 export const updatePost = (id, updatedPost) =>
   API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
